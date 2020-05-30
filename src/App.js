@@ -1,18 +1,45 @@
-import React from 'react';
+import React, {Component} from 'react'
+import {Route} from 'react-router-dom'
+import Welcome from './Welcome/Welcome'
 import Search from './Search/Search'
+import Similar from './Similar/Similar'
+import Artist from './Artist/Artist'
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-          I Want Music
-      </header>
-      <div className="searchBar">
-        <Search />
-      </div>
-    </div>
-  );
+class App extends Component {
+    renderNavRoutes() {
+      return (
+        <>
+          {['/'].map(path => {
+            return(
+            <Route 
+              exact
+              key={path}
+              path={path}
+              component={Welcome}
+            />
+          )})}
+          <Route path='/artist/:artistName' component={Artist} />
+  
+        </>
+      );
+    }
+
+    render() {
+      return (
+        <div className="App">
+          <header className="App-header">
+              I Want Music
+          </header>
+          <div className="searchBar">
+            <Search />
+          </div>
+          <div className="body">
+            <nav className="AppNav">{this.renderNavRoutes()}</nav>
+          </div>
+        </div>
+      )
+    }
 }
 
 export default App;

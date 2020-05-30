@@ -1,6 +1,8 @@
 /*Search Input Field*/
 
 import React, {Component} from 'react'
+import {Redirect} from 'react-router-dom'
+import Similar from '../Similar/Similar'
 import ValidationError from '../ValidationError/ValidationError'
 import config from '../config'
 import './Search.css'
@@ -13,7 +15,8 @@ class Search extends Component {
                 value: '',
                 touched: false
             },
-            artistData: []
+            artistData: [],
+            redirect: false
         }
     }
 
@@ -25,7 +28,6 @@ class Search extends Component {
     
     handleSubmit = event => {
         event.preventDefault()
-        console.log(this.state.artist.value)
 
         this.fetchSimilarArtists()
     }
@@ -48,6 +50,9 @@ class Search extends Component {
                 this.setState({artistData: data.similarartists.artist})
                 console.log(this.state.artistData)
             })
+            .then(
+                this.setState({redirect: true})
+            )
     }
 
     /*Alerts that artist is a required field*/
@@ -62,6 +67,7 @@ class Search extends Component {
         const artistError = this.validateArtist();
 
         return (
+            <section>
             <form className="Search" onSubmit={this.handleSubmit}>
                 <label htmlFor="Artist Search" className="ArtistLable">
                     Artist: 
@@ -80,6 +86,8 @@ class Search extends Component {
                     Submit
                 </button>
             </form>
+            {this.state.redirect && <Similar data={this.state.artistData} />}
+            </section>
         )
     }
 }
