@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react'
 import ValidationError from '../ValidationError/ValidationError'
+import config from '../config'
 import './Search.css'
 
 class Search extends Component {
@@ -11,19 +12,45 @@ class Search extends Component {
             artist: {
                 value: '',
                 touched: false
-            }
+            },
+            artistData: []
         }
     }
 
+    /*Updates state to reflect artists name*/
     updateArtist(artistName) {
         this.setState({artist: {value: artistName, touched: true}})
     }
 
+    
     handleSubmit = event => {
         event.preventDefault()
         console.log(this.state.artist.value)
+
+        this.fetchSimilarArtists()
     }
 
+    /*API Call for searched artist*/
+    fetchSimilarArtists() {
+        const artist = this.state.artist.value
+        const similarUrl = `${config.API_ENDPOINT}/2.0/?method=artist.getsimilar&artist=${artist}&api_key=e93fe007a5029bc2d532588847d728b4&format=json`
+
+        fetch(similarUrl)
+            .then(res => {
+                if(res.ok) {
+                    return res.json()
+                }
+                else {
+                    throw new Error('Something went wrong loading artists')
+                }
+            })
+            .then(data => {
+                this.setState({artistData: data.similarartists.artist})
+                console.log(this.state.artistData)
+            })
+    }
+
+    /*Alerts that artist is a required field*/
     validateArtist() {
         const name = this.state.artist.value.trim();
         if (name.length === 0) {

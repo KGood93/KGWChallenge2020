@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-
+          I Want Music
       </header>
       <div className="searchBar">
         <Search />
