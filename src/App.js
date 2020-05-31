@@ -19,6 +19,7 @@ class App extends Component {
               component={Welcome}
             />
           )})}
+          <Route path='/similar' component={Similar} />
           <Route path='/artist/:artistName' component={Artist} />
   
         </>
@@ -29,7 +30,7 @@ class App extends Component {
       return (
         <div className="App">
           <header className="App-header">
-              I Want Music
+              Wantable.Music
           </header>
           <div className="searchBar">
             <Search />

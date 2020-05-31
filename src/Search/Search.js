@@ -2,14 +2,13 @@
 
 import React, {Component} from 'react'
 import {Redirect} from 'react-router-dom'
-import Similar from '../Similar/Similar'
 import ValidationError from '../ValidationError/ValidationError'
 import config from '../config'
 import './Search.css'
 
 class Search extends Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             artist: {
                 value: '',
@@ -25,11 +24,17 @@ class Search extends Component {
         this.setState({artist: {value: artistName, touched: true}})
     }
 
+    updateRedirect() {
+        this.setState({redirect: true})
+    }
+
     
     handleSubmit = event => {
         event.preventDefault()
+        console.log(this.state.artist.value)
+        //this.fetchSimilarArtists()
 
-        this.fetchSimilarArtists()
+        this.updateRedirect()
     }
 
     /*API Call for searched artist*/
@@ -68,25 +73,25 @@ class Search extends Component {
 
         return (
             <section>
-            <form className="Search" onSubmit={this.handleSubmit}>
-                <label htmlFor="Artist Search" className="ArtistLable">
-                    Artist: 
-                </label>
-                <input 
+                <form className="Search" onSubmit={this.handleSubmit}>
+                    <label htmlFor="Artist Search" className="ArtistLable">
+                        Artist: 
+                    </label>
+                    <input 
                         type="text"
                         className="artistSearch"
                         onChange={e=> this.updateArtist(e.target.value)}
-                />
-                {this.state.artist.touched && <ValidationError message={artistError} />}
-                <button
-                    type="submit"
-                    disabled={this.validateArtist()}
-                    className="submitButton"
-                >
-                    Submit
-                </button>
-            </form>
-            {this.state.redirect && <Similar data={this.state.artistData} />}
+                    />
+                    {this.state.artist.touched && <ValidationError message={artistError} />}
+                    <button
+                        type="submit"
+                        disabled={this.validateArtist()}
+                        className="submitButton"
+                    >
+                        Submit
+                    </button>
+                </form>
+                {this.state.redirect && <Redirect to={`/similar/${this.state.artist.value}`}/>}
             </section>
         )
     }
