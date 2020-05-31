@@ -17,17 +17,16 @@ class Artist extends Component {
         this.getArtistInfo()
     }
 
+    /* Determine artists name from props */
     returnArtistName() {
-        //console.log(this.props)
         var artistSelected = this.props.location.pathname
-        //console.log(artistSelected)
         var split = artistSelected.split("/")
-        //console.log(split)
         var workingName = split[2]
-        //console.log(workingName)
+    
         return workingName
     }
 
+    /*API Call*/
     getArtistInfo() {
         var artistName = this.returnArtistName()
 

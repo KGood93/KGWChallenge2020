@@ -1,5 +1,4 @@
-/* Uses API results to display list of artists in
-content portion of page */
+/* Uses routing to parse artists name and send API request */
 
 import React, {Component} from 'react'
 import SimilarList from './SimilarList'
